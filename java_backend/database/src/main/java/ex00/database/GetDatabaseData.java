@@ -12,8 +12,8 @@ public class GetDatabaseData {
         int recordCount = 0;
         while(resultSet.next()){
             //product_id, title, description, price, url, product_source, currency
-            System.out.println(resultSet.getString("product_id") + "\t" + resultSet.getString("title") + "\t" + resultSet.getString("description") + "\t" + resultSet.getFloat("price")
-            + "\t" + resultSet.getString("url") + "\t" + resultSet.getString("product_source") + "\t" + resultSet.getString("currency") + "\t");
+            System.out.println(resultSet.getInt("product_id") + "\t" + resultSet.getString("title") + "\t" + resultSet.getString("description") + "\t" + resultSet.getFloat("price")
+            + "\t" + resultSet.getString("url") + "\t" + resultSet.getString("product_source") + "\t" + resultSet.getString("currency") + "\t" + resultSet.getFloat("rating") + "\t" + resultSet.getInt("review_count"));
             recordCount++;
         }
         resultSet.close();
