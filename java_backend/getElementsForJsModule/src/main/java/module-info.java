@@ -1,0 +1,3 @@
+module getElementsForJsModule {
+    requires database;
+}
