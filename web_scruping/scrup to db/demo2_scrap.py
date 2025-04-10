@@ -58,13 +58,11 @@ def generate_links(soup, class_selector):
 def get_all_data(src):
     HEADERS = source_definer.HEADERS
     URL = src.search_url
-    print(URL)
 
     webpage = requests.get(URL, headers=HEADERS)
     soup = BeautifulSoup(webpage.content, 'html.parser')
 
     link_list = generate_links(soup, src.link_selector)
-    print(link_list)
 
     d = {'title':[], 'price':[], 'rating': [], 'reviews':[], 'currency':[], 'url':[], 'product_src': [] }
 
@@ -76,9 +74,7 @@ def get_all_data(src):
         new_soup = BeautifulSoup(new_webpage.content, 'html.parser')
 
         title = get_title(new_soup, src.title_selector)
-        print(title)
         price = get_price(new_soup, src.price_selector)
-        print(price)
         rating_str = get_rating(new_soup, src.ratings_selector)
         reviews_str = get_review_count(new_soup, src.reviews_selector)
 
