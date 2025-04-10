@@ -212,7 +212,6 @@ button {
     width: 961px;
     margin-top: -1.00px;
     margin-right: -117.00px;
-    font-family: "JetBrains Mono", Helvetica;
     font-weight: 400;
     color: #000000;
     font-size: 64px;
@@ -224,7 +223,6 @@ button {
   .text-wrapper-2{
     position: relative;
     align-self: stretch;
-    font-family: "JetBrains Mono", Helvetica;
     font-weight: 400;
     color: #000000bf;
     font-size: 24px;
@@ -268,7 +266,7 @@ button {
 }
 
 .container:hover::before {
-  filter: blur(0); /* Removes the blur effect on hover */
+  filter: blur(0); 
 }
 
 .container-preview {
