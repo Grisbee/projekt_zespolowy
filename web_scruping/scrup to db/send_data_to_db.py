@@ -1,4 +1,4 @@
-import demo2_scrup
+import demo2_scrap
 import db_properties
 import psycopg2
 
@@ -10,7 +10,7 @@ try:
     conn = psycopg2.connect(user=username, password=pwd, port=port_id, dbname=database, host=hostname)
     cursor = conn.cursor()
 
-    data = demo2_scrup.get_all_data()
+    data = demo2_scrap.get_all_data()
 
     insert_script = ''' INSERT INTO products (title, price, url, product_source, currency, rating, review_count) VALUES (%s, %s, %s, %s, %s, %s, %s)'''
     insert_value = [(data['title'][i],

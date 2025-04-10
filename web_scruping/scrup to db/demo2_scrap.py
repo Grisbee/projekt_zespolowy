@@ -1,75 +1,86 @@
 from bs4 import BeautifulSoup
 import requests
-import pandas as pd
-import numpy as np
 import re
+import source_definer
 
 
-def get_title(soup):
+def get_title(s, title_selector):
     try:
-        title = soup.find("span", attrs={"id": 'productTitle'})
-
-        title_value = title.text
-
-        title_string = title_value.strip()
+        title = s.find("span", attrs=title_selector).get_text().strip()
 
     except AttributeError:
-        title_string = ""
+        title = ""
 
-    return title_string
+    return title
 
-def get_price(soup):
+def get_price(soup, price_selector):
     try:
-        price = soup.find('span', attrs={'class': 'aok-offscreen'}).text.strip()
+        price = soup.find('span', attrs=price_selector).text.strip()
     except AttributeError:
         price = ""
     return price
 
 
-def get_rating(soup):
+def get_rating(soup, rating_selector):
     try:
         rating = soup.find("i", attrs={'class': 'a-icon a-icon-star a-star-4-5'}).string.strip()
 
     except AttributeError:
         try:
-            rating = soup.find("span", attrs={'class': 'a-icon-alt'}).string.strip()
+            rating = soup.find("span", attrs=rating_selector).string.strip()
         except:
             rating = ""
 
     return rating
 
 
-def get_review_count(soup):
+def get_review_count(soup, review_selector):
     try:
-        review_count = soup.find("span", attrs={'id':'acrCustomerReviewText'}).string.strip()
+        review_count = soup.find("span", attrs=review_selector).string.strip()
 
     except AttributeError:
         review_count = ""
 
     return review_count
 
-def get_all_data():
-    HEADERS = ({'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:136.0) Gecko/20100101 Firefox/136.0', 'Accept-Language': 'en-US, en;q=0.5'})
-    URL = "https://www.amazon.pl/s?k=hulajnoga+elektryczna&crid=100KGTELDEQ4M&sprefix=hulajnoga%2Caps%2C105&ref=nb_sb_ss_ts-doa-p_1_9"
+def generate_links(soup, class_selector):
+    expected_classes = set(class_selector.split())
+    links = []
+    for a_tag in soup.find_all('a'):
+        actual_classes = set(a_tag.get('class', []))
+        if actual_classes == expected_classes:
+            href = a_tag.get('href')
+            if href:
+                links.append(href)
+    return links
+
+
+def get_all_data(src):
+    HEADERS = source_definer.HEADERS
+    URL = src.search_url
+    print(URL)
 
     webpage = requests.get(URL, headers=HEADERS)
     soup = BeautifulSoup(webpage.content, 'html.parser')
-    links = soup.find_all('a', attrs={'class': 'a-link-normal s-line-clamp-4 s-link-style a-text-normal'})
 
-    link_list = []
-    for link in links:
-        link_list.append(link.get('href'))
+    link_list = generate_links(soup, src.link_selector)
+    print(link_list)
 
-    d = { 'title':[], 'price':[], 'rating': [], 'reviews':[], 'currency':[], 'url':[], 'product_src': [] }
+    d = {'title':[], 'price':[], 'rating': [], 'reviews':[], 'currency':[], 'url':[], 'product_src': [] }
+
     for link in link_list:
-        request_link = "https://www.amazon.pl" + link
+        request_link = str(src.base_url) + link
+        print(request_link)
+
         new_webpage = requests.get(request_link, headers=HEADERS)
         new_soup = BeautifulSoup(new_webpage.content, 'html.parser')
 
-        title = get_title(new_soup)
-        price = get_price(new_soup)
-        rating_str = get_rating(new_soup)
-        reviews_str = get_review_count(new_soup)
+        title = get_title(new_soup, src.title_selector)
+        print(title)
+        price = get_price(new_soup, src.price_selector)
+        print(price)
+        rating_str = get_rating(new_soup, src.ratings_selector)
+        reviews_str = get_review_count(new_soup, src.reviews_selector)
 
         price_match = re.match(r'([\d\s,]+)\s?(\D+)', price.replace('\xa0', ' ').replace('&nbsp;', ' ').strip())
         if price_match:
@@ -95,10 +106,13 @@ def get_all_data():
         d['rating'].append(float(rating) if rating else None)
         d['reviews'].append(number_of_reviews)
         d['url'].append(request_link)
-        d['product_src'].append('amazon')
-    return d;
+        d['product_src'].append(src.scruping_platform)
+    return d
 
 
+if __name__ == '__main__':
+    data = get_all_data(source_definer.TELEWIZOR_SAMSUNG_AMAZON_CFG)
+    print(data)
 
 # amazon_df = pd.DataFrame.from_dict(d)
 # amazon_df['title'] = amazon_df['title'].replace('', np.nan)

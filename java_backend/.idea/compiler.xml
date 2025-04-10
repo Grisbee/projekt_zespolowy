@@ -6,8 +6,8 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="getElementsForJsModule" />
         <module name="database" />
+        <module name="dynamicFormController" />
       </profile>
     </annotationProcessing>
   </component>
