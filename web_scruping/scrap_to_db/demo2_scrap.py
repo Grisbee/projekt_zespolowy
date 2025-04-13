@@ -54,6 +54,15 @@ def generate_links(soup, class_selector):
                 links.append(href)
     return links
 
+def get_img_url(soup):
+    try:
+        img_tag = soup.find("img", {"id": "landingImage"})
+        img_url = img_tag["src"] if img_tag else ""
+    except Exception:
+        img_url = ""
+    return img_url
+
+
 
 def get_all_data(src):
     HEADERS = source_definer.HEADERS
@@ -64,11 +73,11 @@ def get_all_data(src):
 
     link_list = generate_links(soup, src.link_selector)
 
-    d = {'title':[], 'price':[], 'rating': [], 'reviews':[], 'currency':[], 'url':[], 'product_src': [] }
+    d = {'title': [], 'price': [], 'rating': [], 'reviews': [], 'currency': [], 'url': [], 'product_src': [], 'img_url': []}
 
     for link in link_list:
         request_link = str(src.base_url) + link
-        print(request_link)
+        #print(request_link)
 
         new_webpage = requests.get(request_link, headers=HEADERS)
         new_soup = BeautifulSoup(new_webpage.content, 'html.parser')
@@ -96,21 +105,19 @@ def get_all_data(src):
         reviews_match = re.search(r'\d+', reviews_str)
         number_of_reviews = int(reviews_match.group()) if reviews_match else None
 
+        img_url = get_img_url(new_soup)
+
         d['title'].append(title)
         d['price'].append(float(amount) if amount else None)
         d['currency'].append(currency)
         d['rating'].append(float(rating) if rating else None)
         d['reviews'].append(number_of_reviews)
         d['url'].append(request_link)
-        d['product_src'].append(src.scruping_platform)
+        d['product_src'].append(src.scraping_platform)
+        d['img_url'].append(img_url)
     return d
 
 
 if __name__ == '__main__':
     data = get_all_data(source_definer.TELEWIZOR_SAMSUNG_AMAZON_CFG)
     print(data)
-
-# amazon_df = pd.DataFrame.from_dict(d)
-# amazon_df['title'] = amazon_df['title'].replace('', np.nan)
-# amazon_df = amazon_df.dropna(subset=['title'])
-# amazon_df.to_csv("amazon_data.csv", header=True, index=False)

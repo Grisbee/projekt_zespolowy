@@ -24,7 +24,7 @@ class ScrapingConfig:
     price_selector: dict
     ratings_selector: dict
     reviews_selector: dict
-    scruping_platform: ScrapingPlatform
+    scraping_platform: ScrapingPlatform
 
 BASIC_AMAZON_CFG = ScrapingConfig(
     base_url=ScrapingBaseUrl.AMAZON,
@@ -35,7 +35,8 @@ BASIC_AMAZON_CFG = ScrapingConfig(
     price_selector={"class": "aok-offscreen"},
     ratings_selector={"class": "a-icon-alt"},
     reviews_selector={"id": "acrCustomerReviewText"},
-    scruping_platform=ScrapingPlatform.AMAZON
+    scraping_platform=ScrapingPlatform.AMAZON,
+
 )
 
 MOBILE_PHONE_AMAZON_CFG = replace(

@@ -12,14 +12,15 @@ try:
 
     data = demo2_scrap.get_all_data()
 
-    insert_script = ''' INSERT INTO products (title, price, url, product_source, currency, rating, review_count) VALUES (%s, %s, %s, %s, %s, %s, %s)'''
+    insert_script = ''' INSERT INTO products (title, price, url, product_source, currency, rating, review_count, img_url) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)'''
     insert_value = [(data['title'][i],
         data['price'][i],
         data['url'][i],
         data['product_src'][i],
         data['currency'][i],
         data['rating'][i],
-        data['reviews'][i]
+        data['reviews'][i],
+        data['img_url'][i]
     ) for i in range(len(data['title']))]
 
     cursor.executemany(insert_script, insert_value)
