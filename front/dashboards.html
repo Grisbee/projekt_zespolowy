@@ -42,7 +42,7 @@
               <div class="settings-panel">
                 <div class="switch-container">
                   <label class="switch">
-                    <input type="checkbox">
+                    <input type="checkbox" data-type="price">
                     <span class="slider"></span>
                   </label>
                   <span class="switch-label">Price</span>
@@ -50,7 +50,7 @@
                 
                 <div class="switch-container">
                   <label class="switch">
-                    <input type="checkbox">
+                    <input type="checkbox" data-type="review">
                     <span class="slider"></span>
                   </label>
                   <span class="switch-label">Review count</span>
@@ -58,17 +58,17 @@
         
                 <div class="switch-container">
                   <label class="switch">
-                    <input type="checkbox">
+                    <input type="checkbox" data-type="rating">
                     <span class="slider"></span>
                   </label>
                   <span class="switch-label">Rating</span>
                 </div>
 
-                <button class="generate-button">Generate</button>
+                <button class="generate-button" id="generateChartBtn" >Generate</button>
 
               </div>
         
-              <div class="chart-container">
+              <div class="chart-container" id="chartContainer">
                 <div class="chart-placeholder">
                   
                   <p>Tutaj pojawi się interaktywny wykres</p>

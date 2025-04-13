@@ -13,12 +13,14 @@ import java.util.List;
 @Service
 public class GenerateChart implements GenerateChartOption {
     private final GeneratePriceChart priceChart;
-//    private final GenerateRatingChart ratingChart;
-//    private final GenerateReviewChart reviewChart;
+    private final GenerateRatingChart ratingChart;
+    private final GenerateReviewChart reviewChart;
 
 
-    public GenerateChart(GeneratePriceChart priceChart) {
+    public GenerateChart(GeneratePriceChart priceChart, GenerateRatingChart ratingChart, GenerateReviewChart reviewChart) {
         this.priceChart = priceChart;
+        this.ratingChart = ratingChart;
+        this.reviewChart = reviewChart;
     }
 
     @Override
@@ -27,12 +29,12 @@ public class GenerateChart implements GenerateChartOption {
     }
 
     @Override
-    public String generateReviewChart() {
-        return "";
+    public String generateReviewChart(List<Product> products) {
+        return reviewChart.generateReviewChart(products);
     }
 
     @Override
-    public String generateRatingChart() {;
-        return "";
+    public String generateRatingChart(List<Product> products) {;
+        return ratingChart.generateRatingChart(products);
     }
 }
