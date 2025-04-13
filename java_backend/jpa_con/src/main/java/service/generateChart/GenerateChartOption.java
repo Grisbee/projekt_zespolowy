@@ -6,7 +6,7 @@ import service.entities.Product;
 import java.util.List;
 
 public interface GenerateChartOption {
-    public String generatePriceChart(List<Product> products);
-    public String generateReviewChart();
-    public String generateRatingChart();
+    String generatePriceChart(List<Product> products);
+    String generateReviewChart(List<Product> products);
+    String generateRatingChart(List<Product> products);
 }
