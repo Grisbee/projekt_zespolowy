@@ -25,7 +25,7 @@ public class Category {
     @Column(name = "category_id", updatable = false, nullable = false)
     private UUID categoryId;
 
-    @Column(name = "category_name")
+    @Column(name = "category_name", nullable = false, unique = true)
     private String categoryName;
 
 }

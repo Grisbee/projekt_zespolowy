@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
         const requestBody = {
             title: "productTitle",
-            productSource: "amazon", // Przykład
+            productSource: "amazon",
             price: 100.00,
             rating: 4.5,
             reviewCount: 123
@@ -66,7 +66,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function renderChart(chartData) {
-        //  implementacja renderowania wykresu
         chartContainer.innerHTML = `
           <div class="chart-item">
             <h3>${chartData.chartType || 'Generated Chart'}</h3>
@@ -78,3 +77,5 @@ document.addEventListener('DOMContentLoaded', function() {
       }
 
 });
+
+
