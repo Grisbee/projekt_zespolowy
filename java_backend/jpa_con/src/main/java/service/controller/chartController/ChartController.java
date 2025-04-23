@@ -1,20 +1,17 @@
-package service.controller;
+package service.controller.chartController;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
-import service.controller.controllerEndpoints.ControllerEndpoints;
+import service.controller.controllerEndpoints.ChartControllerEndpoints;
 import service.entities.Product;
-import service.generateChart.GenerateChart;
 import service.generateChart.GenerateChartOption;
-import service.generateChart.chartOptions.GeneratePriceChart;
 
 import java.util.List;
 
 @RestController
-@RequestMapping(ControllerEndpoints.BASE)
+@RequestMapping(ChartControllerEndpoints.BASE)
 public class ChartController {
 
     private final GenerateChartOption generateChart;
@@ -23,21 +20,18 @@ public class ChartController {
         this.generateChart = generateChart;
     }
 
-    @PostMapping(ControllerEndpoints.PRICE_CHART)
+    @PostMapping(ChartControllerEndpoints.PRICE_CHART)
     public String generatePriceChart(@RequestBody List<Product> products) {
-        System.out.println("Generating price chart...");
         return generateChart.generatePriceChart(products);
     }
 
-    @PostMapping(ControllerEndpoints.RATING_CHART)
+    @PostMapping(ChartControllerEndpoints.RATING_CHART)
     public String generateRatingChart(@RequestBody List<Product> products) {
-        System.out.println("Generating rating chart...");
         return generateChart.generateRatingChart(products);
     }
 
-    @PostMapping(ControllerEndpoints.REVIEW_CHART)
+    @PostMapping(ChartControllerEndpoints.REVIEW_CHART)
     public String generateReviewChart(@RequestBody List<Product> products) {
-        System.out.println("Generating review chart...");
         return generateChart.generateReviewChart(products);
     }
 }

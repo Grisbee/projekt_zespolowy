@@ -1,6 +1,7 @@
 package service.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -47,9 +48,10 @@ public class Product {
     @Column(name = "review_count")
     private Integer reviewCount;
 
-    @Column(name = "image_url", columnDefinition = "TEXT")
+    @Column(name = "img_url", columnDefinition = "TEXT")
     private String imageUrl;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<ProductCategory> categories;
 }
