@@ -105,9 +105,6 @@ def scrape_keepa_links(search_term, max_links=5):
             f.write(driver.page_source)
         logger.info("Zapisano źródło strony do analizy")
 
-        driver.quit()
-        logger.info("Przeglądarka zamknięta")
-
         result_links = []
 
         start_idx = 1
@@ -124,15 +121,87 @@ def scrape_keepa_links(search_term, max_links=5):
                         product_code = match.group(1)
 
                 if product_code:
-                    result_links.append({
+                    product_data = {
                         "product_name": link["text"][:50],
                         "link_keepa": f"https://keepa.com/#!product/1-{product_code}",
                         "link_amazon": f"https://www.amazon.com/dp/{product_code}?psc=1",
-                        "link_chart": f"https://graph.keepa.com/pricehistory.png?asin={product_code}&domain=com"
-                    })
+                        "link_chart": f"https://graph.keepa.com/pricehistory.png?asin={product_code}&domain=com",
+                        "box_price": None,
+                        "new_price": None,
+                        "used_price": None
+                    }
 
+                    try:
+                        logger.info(f"Odwiedzam stronę produktu: {product_data['link_keepa']}")
+                        driver.get(product_data['link_keepa'])
+                        time.sleep(8)
+
+                        # Pobieranie box_price - użycie find_elements zamiast WebDriverWait
+                        try:
+                            box_price_elements = driver.find_elements(By.CSS_SELECTOR,
+                                                                      "span.productTableDescriptionPriceAlt.priceBuyBox")
+
+                            if box_price_elements:
+                                box_price_text = box_price_elements[0].text
+                                if box_price_text:
+                                    box_price = re.search(r'\$\s*([0-9.]+)', box_price_text)
+                                    if box_price:
+                                        product_data["box_price"] = box_price.group(1)
+                                        logger.info(f"Box Price: {product_data['box_price']}")
+                                    else:
+                                        logger.info("Box Price: nie znaleziono formatu ceny w tekście")
+                            else:
+                                logger.info("Box Price: nie znaleziono elementu na stronie")
+                        except Exception as e:
+                            logger.warning(f"Nie udało się pobrać box_price: {str(e)[:100]}")
+
+                        # Pobieranie new_price - użycie find_elements zamiast WebDriverWait
+                        try:
+                            new_price_elements = driver.find_elements(By.CSS_SELECTOR,
+                                                                      "span.productTableDescriptionPriceAlt.priceNew")
+
+                            if new_price_elements:
+                                new_price_text = new_price_elements[0].text
+                                if new_price_text:
+                                    new_price = re.search(r'\$\s*([0-9.]+)', new_price_text)
+                                    if new_price:
+                                        product_data["new_price"] = new_price.group(1)
+                                        logger.info(f"New Price: {product_data['new_price']}")
+                                    else:
+                                        logger.info("New Price: nie znaleziono formatu ceny w tekście")
+                            else:
+                                logger.info("New Price: nie znaleziono elementu na stronie")
+                        except Exception as e:
+                            logger.warning(f"Nie udało się pobrać new_price: {str(e)[:100]}")
+
+                        # Pobieranie used_price - użycie find_elements zamiast WebDriverWait
+                        try:
+                            used_price_elements = driver.find_elements(By.CSS_SELECTOR,
+                                                                       "span.productTableDescriptionPriceAlt.priceUsed")
+
+                            if used_price_elements:
+                                used_price_text = used_price_elements[0].text
+                                if used_price_text:
+                                    used_price = re.search(r'\$\s*([0-9.]+)', used_price_text)
+                                    if used_price:
+                                        product_data["used_price"] = used_price.group(1)
+                                        logger.info(f"Used Price: {product_data['used_price']}")
+                                    else:
+                                        logger.info("Used Price: nie znaleziono formatu ceny w tekście")
+                            else:
+                                logger.info(
+                                    "Used Price: nie znaleziono elementu na stronie - produkt prawdopodobnie nie ma ceny używanego")
+                        except Exception as e:
+                            logger.warning(f"Nie udało się pobrać used_price: {str(e)[:100]}")
+
+                    except Exception as e:
+                        logger.error(f"Błąd podczas scrapowania cen dla produktu {product_code}: {e}")
+
+                    result_links.append(product_data)
                     logger.info(f"Dodano produkt {product_code}: {link['text'][:30]}...")
 
+        driver.quit()
+        logger.info("Przeglądarka zamknięta")
         return result_links
 
     except Exception as e:
