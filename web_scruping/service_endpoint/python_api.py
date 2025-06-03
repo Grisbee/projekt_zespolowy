@@ -138,3 +138,90 @@ async def generate_price_box(request: ProductRequest):
     return {
         "chart": chart
     }
+
+
+@app.post("/python-product-data")
+async def get_product_data(request: ProductRequest):
+    conn = None
+    cursor = None
+
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        cursor.execute("""
+            SELECT id, keepa_name, amazon_title, link_keepa, link_amazon, 
+                   chart_url, price_box, price_new, price_used, 
+                   rating, review_count, currency, product_src
+            FROM Product 
+            WHERE id = %s
+        """, (request.product_id,))
+
+        product = cursor.fetchone()
+        if not product:
+            raise HTTPException(status_code=404, detail="Product not found")
+
+        cursor.execute("""
+            SELECT similar_product_1, similar_product_2, similar_product_3, similar_product_4
+            FROM SimilarProducts 
+            WHERE product_id = %s
+        """, (request.product_id,))
+
+        similar_ids = cursor.fetchone()
+        similar_products = []
+
+        if similar_ids:
+            for similar_id in similar_ids:
+                if similar_id is not None:
+                    cursor.execute("""
+                        SELECT id, keepa_name, amazon_title, link_keepa, link_amazon, 
+                               chart_url, price_box, price_new, price_used, 
+                               rating, review_count, currency, product_src
+                        FROM Product 
+                        WHERE id = %s
+                    """, (similar_id,))
+
+                    similar_product = cursor.fetchone()
+                    if similar_product:
+                        similar_products.append({
+                            "id": similar_product[0],
+                            "keepa_name": similar_product[1],
+                            "amazon_title": similar_product[2],
+                            "link_keepa": similar_product[3],
+                            "link_amazon": similar_product[4],
+                            "chart_url": similar_product[5],
+                            "price_box": similar_product[6],
+                            "price_new": similar_product[7],
+                            "price_used": similar_product[8],
+                            "rating": similar_product[9],
+                            "review_count": similar_product[10],
+                            "currency": similar_product[11],
+                            "product_src": similar_product[12]
+                        })
+
+        return {
+            "product": {
+                "id": product[0],
+                "keepa_name": product[1],
+                "amazon_title": product[2],
+                "link_keepa": product[3],
+                "link_amazon": product[4],
+                "chart_url": product[5],
+                "price_box": product[6],
+                "price_new": product[7],
+                "price_used": product[8],
+                "rating": product[9],
+                "review_count": product[10],
+                "currency": product[11],
+                "product_src": product[12]
+            },
+            "similar_products": similar_products
+        }
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
