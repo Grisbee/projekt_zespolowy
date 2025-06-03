@@ -3,6 +3,7 @@ package service.generateChart;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import service.entities.Product;
+import service.entities.NewProduct;
 import service.generateChart.chartOptions.GeneratePriceChart;
 import service.generateChart.chartOptions.GenerateRatingChart;
 import service.generateChart.chartOptions.GenerateReviewChart;
@@ -24,17 +25,17 @@ public class GenerateChart implements GenerateChartOption {
     }
 
     @Override
-    public String generatePriceChart(List<Product> products) {
+    public String generatePriceChart(List<NewProduct> products) {
         return priceChart.generatePriceChart(products);
     }
 
     @Override
-    public String generateReviewChart(List<Product> products) {
+    public String generateReviewChart(List<NewProduct> products) {
         return reviewChart.generateReviewChart(products);
     }
 
     @Override
-    public String generateRatingChart(List<Product> products) {;
+    public String generateRatingChart(List<NewProduct> products) {;
         return ratingChart.generateRatingChart(products);
     }
 }

@@ -3,6 +3,7 @@ package service.generateChart.chartOptions;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import service.entities.Product;
+import service.entities.NewProduct;
 import service.pythonService.PostRequest;
 import service.pythonService.PythonService;
 import service.pythonService.pythonEndpoints.PythonEndpoints;
@@ -10,6 +11,7 @@ import service.pythonService.pythonEndpoints.PythonEndpoints;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Service
 public class GenerateReviewChart {
@@ -21,15 +23,21 @@ public class GenerateReviewChart {
         this.restTemplate = pythonService.getRestTemplate();
     }
 
-    public String generateReviewChart(List<Product> products) {
+    public String generateReviewChart(List<NewProduct> products) {
 
         try{
             Map<String, Object> request = Map.of(
-                    "products", products.stream().map(p -> Map.of(
-                                    "productSource", p.getProductSource(),
-                                    "review", p.getReviewCount(),
-                                    "title", p.getTitle()
-                            ))
+                    "products", products.stream().map(p -> {
+                        String title = Optional.ofNullable(p.getAmazonTitle())
+                                .orElseGet(() -> Optional.ofNullable(p.getKeepaName()).orElse(""));
+                        String reviewCount = Optional.ofNullable(p.getReviewCount()).orElse("0");
+
+                        return Map.of(
+                                    "productSource", Optional.ofNullable(p.getProductSrc()).orElse(""),
+                                    "review", reviewCount,
+                                    "title", title
+                            );
+                    })
                             .collect(Collectors.toList())
             );
             PostRequest postRequest = new PostRequest();

@@ -11,7 +11,8 @@ CREATE TABLE products (
     product_source VARCHAR(10),
     currency VARCHAR(3),
     rating NUMERIC(2,1),
-    review_count INTEGER
+    review_count INTEGER,
+    img_url TEXT
 );
 
 CREATE TABLE categories (
