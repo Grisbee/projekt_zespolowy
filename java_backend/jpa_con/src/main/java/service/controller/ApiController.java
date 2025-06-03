@@ -17,14 +17,14 @@ import java.util.List;
 @CrossOrigin(origins = "http://127.0.0.1:5500")
 public class ApiController {
 
-    // @Autowired
-    // private ProductRepo productRepo;
-    private ProductCategoryRepo productCategoryRepo;
-    private CategoryRepo categoryRepo;
+    @Autowired
+    private ProductRepo productRepo;
 
     @Autowired
     private NewProductRepo newProductRepo;
 
+    private ProductCategoryRepo productCategoryRepo;
+    private CategoryRepo categoryRepo;
 
     @GetMapping(value = "/")
     public String getPage(){
