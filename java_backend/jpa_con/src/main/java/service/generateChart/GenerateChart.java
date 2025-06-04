@@ -2,7 +2,6 @@ package service.generateChart;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import service.entities.Product;
 import service.entities.NewProduct;
 import service.generateChart.chartOptions.GeneratePriceChart;
 import service.generateChart.chartOptions.GenerateRatingChart;

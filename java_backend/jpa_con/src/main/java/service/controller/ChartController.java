@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import service.controller.controllerEndpoints.ControllerEndpoints;
-import service.entities.Product;
 import service.entities.NewProduct;
 import service.generateChart.GenerateChart;
 import service.generateChart.GenerateChartOption;
