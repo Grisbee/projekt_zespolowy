@@ -6,6 +6,7 @@
     <title>nasz projekt zespolowy</title>
     <link rel="stylesheet" href="dashboards/style.css">
     <script src="dashboards/index.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=bar_chart_4_bars" />
 </head>
 <body>
@@ -42,30 +43,37 @@
               <div class="settings-panel">
                 <div class="switch-container">
                   <label class="switch">
-                    <input type="checkbox" data-type="price">
+                    <input type="checkbox" data-type="price-new">
                     <span class="slider"></span>
                   </label>
-                  <span class="switch-label">Price</span>
+                  <span class="switch-label">Price (New)</span>
                 </div>
                 
                 <div class="switch-container">
                   <label class="switch">
-                    <input type="checkbox" data-type="review">
+                    <input type="checkbox" data-type="price-used">
                     <span class="slider"></span>
                   </label>
-                  <span class="switch-label">Review count</span>
+                  <span class="switch-label">Price (Used)</span>
                 </div>
         
                 <div class="switch-container">
                   <label class="switch">
-                    <input type="checkbox" data-type="rating">
+                    <input type="checkbox" data-type="price-box">
                     <span class="slider"></span>
                   </label>
-                  <span class="switch-label">Rating</span>
+                  <span class="switch-label">Price (Box)</span>
                 </div>
 
-                <button class="generate-button" id="generateChartBtn" >Generate</button>
+                <div class="switch-container">
+                  <label class="switch">
+                    <input type="checkbox" data-type="product-data">
+                    <span class="slider"></span>
+                  </label>
+                  <span class="switch-label">Product Details</span>
+                </div>
 
+                <button class="generate-button" id="generateChartBtn">Generate</button>
               </div>
         
               <div class="chart-container" id="chartContainer">

@@ -38,7 +38,12 @@ document.addEventListener('DOMContentLoaded', function() {
             chartContainer.innerHTML = '<div class="loader">Generating chart...</div>';
             
             const chartData = await generateChart(selectedChart, selectedProduct);
-            renderChart(chartData);
+
+            if (selectedChart === 'product-data') {
+                renderProductData(chartData);
+            } else {
+                renderChartImage(chartData);
+            }
             
         } catch (error) {
             console.error('Error:', error);
@@ -55,9 +60,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const backendUrl = 'http://localhost:8081';
 
         const endpoints = {
-            'price': `${backendUrl}/api/charts/price-chart`,
-            'review': `${backendUrl}/api/charts/review-chart`,
-            'rating': `${backendUrl}/api/charts/rating-chart`
+            'price-new': `${backendUrl}/api/price-new`,
+            'price-used': `${backendUrl}/api/price-used`,
+            'price-box': `${backendUrl}/api/price-box`,
+            'product-data': `${backendUrl}/api/product-data`
         };
 
         console.log('Dane produktu przed budowaniem requestBody:', {
@@ -67,14 +73,10 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         const requestBody = {
-            title: product.amazonTitle || product.keepaName,
-            productSource: product.productSrc || 'amazon',
-            price: product.priceNew ? (product.priceNew / 100) : 0,
-            rating: parseFloat(product.rating) || 0,
-            reviewCount: parseInt(product.reviewCount) || 0
+            keepa_name: product.keepaName || product.amazonTitle
         };
 
-        console.log("Wysyłam body:", JSON.stringify([requestBody]));
+        console.log("Wysyłam body:", JSON.stringify(requestBody));
         console.log("Endpoint:", endpoints[chartType]);
     
         const response = await fetch(endpoints[chartType], {
@@ -82,7 +84,7 @@ document.addEventListener('DOMContentLoaded', function() {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify([requestBody])
+            body: JSON.stringify(requestBody)
         });
     
         if (!response.ok) {
@@ -92,14 +94,65 @@ document.addEventListener('DOMContentLoaded', function() {
         return await response.json();
     }
 
-    function renderChart(chartData) {
-        chartContainer.innerHTML = `
-            <div class="chart-item">
-                <h3>${chartData.chartType || 'Generated Chart'}</h3>
-                <div class="chart-content">
-                    ${JSON.stringify(chartData, null, 2)}
+    function renderChartImage(chartData) {
+        // Clear previous content
+        chartContainer.innerHTML = '';
+
+        if (chartData && chartData.chart) {
+            const img = document.createElement('img');
+            img.src = chartData.chart; // Set the source to the base64 data URL
+            img.alt = 'Generated Chart';
+            img.style.maxWidth = '100%'; // Optional: Make the image responsive
+            img.style.height = 'auto'; // Optional: Maintain aspect ratio
+            chartContainer.appendChild(img);
+        } else {
+            chartContainer.innerHTML = '<div class="error">Could not load chart data.</div>';
+            console.error('Invalid chart data received:', chartData);
+        }
+    }
+
+    function renderProductData(data) {
+        // Clear previous content
+        chartContainer.innerHTML = '';
+
+        if (data && data.product) {
+            const product = data.product;
+            let html = `
+                <div class="product-details">
+                    <h3>Product Details</h3>
+                    <p><strong>Keepa Name:</strong> ${product.keepa_name}</p>
+                    <p><strong>Amazon Title:</strong> ${product.amazon_title}</p>
+                    <p><strong>Keepa Link:</strong> <a href="${product.link_keepa}" target="_blank">${product.link_keepa}</a></p>
+                    <p><strong>Amazon Link:</strong> <a href="${product.link_amazon}" target="_blank">${product.link_amazon}</a></p>
+                    <p><strong>Price (New):</strong> ${product.price_new ? (product.price_new / 100).toFixed(2) : 'N/A'}</p>
+                    <p><strong>Price (Used):</strong> ${product.price_used ? (product.price_used / 100).toFixed(2) : 'N/A'}</p>
+                    <p><strong>Price (Box):</strong> ${product.price_box ? (product.price_box / 100).toFixed(2) : 'N/A'}</p>
+                    <p><strong>Rating:</strong> ${product.rating || 'N/A'}</p>
+                    <p><strong>Review Count:</strong> ${product.review_count || '0'}</p>
+                    <p><strong>Currency:</strong> ${product.currency || 'N/A'}</p>
+                    <p><strong>Product Source:</strong> ${product.product_src || 'N/A'}</p>
                 </div>
-            </div>
-        `;
+            `;
+
+            if (data.similar_products && data.similar_products.length > 0) {
+                html += `
+                    <div class="similar-products">
+                        <h3>Similar Products</h3>
+                        <ul>
+                `;
+                data.similar_products.forEach(similarProduct => {
+                    html += `<li>${similarProduct.amazon_title || similarProduct.keepa_name}</li>`;
+                });
+                html += `
+                        </ul>
+                    </div>
+                `;
+            }
+
+            chartContainer.innerHTML = html;
+        } else {
+            chartContainer.innerHTML = '<div class="error">Could not load product data.</div>';
+            console.error('Invalid product data received:', data);
+        }
     }
 });

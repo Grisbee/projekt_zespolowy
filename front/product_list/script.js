@@ -70,9 +70,17 @@ function createProductCard(product) {
     generateButton.addEventListener('click', (e) => {
         e.preventDefault();
         const productData = JSON.parse(generateButton.dataset.product);
+        
+        // Use keepaName for identifying the product and save it to the cookie
+        if (!productData.keepaName) {
+            console.error('Product keepaName is missing:', productData);
+            alert('Error: Product identifier is missing. Please try again.');
+            return;
+        }
+        
         console.log('Przekazywany produkt (do cookies):', productData);
         
-        // Zapisz dane produktu w ciasteczku
+        // Save the entire product object (which includes keepaName) in the cookie
         document.cookie = 'selectedProduct=' + encodeURIComponent(JSON.stringify(productData)) + '; path=/; max-age=3600'; // Ciasteczko ważne przez 1 godzinę
         
         window.location.href = 'dashboards.html';

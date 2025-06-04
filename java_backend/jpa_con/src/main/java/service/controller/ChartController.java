@@ -1,43 +1,41 @@
 package service.controller;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
-import service.controller.controllerEndpoints.ControllerEndpoints;
-import service.entities.NewProduct;
-import service.generateChart.GenerateChart;
-import service.generateChart.GenerateChartOption;
-import service.generateChart.chartOptions.GeneratePriceChart;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import service.pythonService.PythonService;
+import service.pythonService.PostRequest;
 
-import java.util.List;
+import java.util.Map;
 
 @RestController
-@RequestMapping(ControllerEndpoints.BASE)
+@RequestMapping("/api")
+@CrossOrigin(origins = "http://127.0.0.1:5500")
 public class ChartController {
 
-    private final GenerateChartOption generateChart;
+    private final PythonService pythonService;
 
-    public ChartController(GenerateChartOption generateChart) {
-        this.generateChart = generateChart;
+    @Autowired
+    public ChartController(PythonService pythonService) {
+        this.pythonService = pythonService;
     }
 
-    @PostMapping(ControllerEndpoints.PRICE_CHART)
-    public String generatePriceChart(@RequestBody List<NewProduct> products) {
-        System.out.println("Generating price chart...");
-        return generateChart.generatePriceChart(products);
+    @PostMapping("/price-new")
+    public Map<String, String> getPriceNewChart(@RequestBody PostRequest request) {
+        return pythonService.getPriceNewChart(request);
     }
 
-    @PostMapping(ControllerEndpoints.RATING_CHART)
-    public String generateRatingChart(@RequestBody List<NewProduct> products) {
-        System.out.println("Generating rating chart...");
-        return generateChart.generateRatingChart(products);
+    @PostMapping("/price-used")
+    public Map<String, String> getPriceUsedChart(@RequestBody PostRequest request) {
+        return pythonService.getPriceUsedChart(request);
     }
 
-    @PostMapping(ControllerEndpoints.REVIEW_CHART)
-    public String generateReviewChart(@RequestBody List<NewProduct> products) {
-        System.out.println("Generating review chart...");
-        return generateChart.generateReviewChart(products);
+    @PostMapping("/price-box")
+    public Map<String, String> getPriceBoxChart(@RequestBody PostRequest request) {
+        return pythonService.getPriceBoxChart(request);
+    }
+
+    @PostMapping("/product-data")
+    public Map<String, Object> getProductData(@RequestBody PostRequest request) {
+        return pythonService.getProductData(request);
     }
 }
