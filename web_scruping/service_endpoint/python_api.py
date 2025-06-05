@@ -96,7 +96,7 @@ def generate_price_chart(product_id: int, price_type: str):
         plt.tight_layout()
 
         # Zapis na dysk (odkomentuj jak chcesz testować)
-        # plt.savefig(f'chart_{product_id}_{price_type}.png', dpi=300, bbox_inches='tight')
+        plt.savefig(f'chart_{product_id}_{price_type}.png', dpi=300, bbox_inches='tight')
 
         buffer = io.BytesIO()
         plt.savefig(buffer, format='png', dpi=300, bbox_inches='tight')
