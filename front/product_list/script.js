@@ -2,6 +2,7 @@
 async function fetchProducts() {
     try {
         const response = await fetch('http://localhost:8081/products');
+        console.log(response)
 
         if (!response.ok) {
             const errorText = await response.text();
@@ -42,8 +43,7 @@ function createProductCard(product) {
     const title = product.amazonTitle || product.keepaName;
     const rating = product.rating || 'N/A';
     const reviewCount = product.reviewCount || '0';
-    // Cena przychodzi w groszach/centach, dzielimy przez 100 i formatujemy
-    const price = product.priceNew !== null && product.priceNew !== undefined ? (product.priceNew / 100).toFixed(2) : 'N/A';
+    const price = product.priceNew !== null && product.priceNew !== undefined ? (product.priceNew).toFixed(2) : 'N/A';
     const currency = product.currency || 'USD';
 
     card.innerHTML = `

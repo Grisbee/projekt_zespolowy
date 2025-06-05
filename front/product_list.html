@@ -21,9 +21,9 @@
           </div>
           <a href="#" id="auth-link" class="contact-us">Contact Us</a>
         </div>
-      </nav>
+    </nav>
 
-      <main class="main-content">
+    <main class="main-content">
         <section class="search-section">
             <input type="text" class="search-input" placeholder="Find product...">
             <button class="search-button">
@@ -32,214 +32,64 @@
             </button>
         </section>
 
-        <div class="products-container">
-            <!-- Przykładowe produkty -->
-            <div class="product-card">
-                <div class="product-image">
-                    <span class="material-symbols-outlined">image</span>
-                </div>
-                <div class="product-info">
-                    <h3 class="product-title">iPhone 15 Pro</h3>
-                    <div class="product-meta">
-                        <div class="product-rating">
-                            <span class="rating-value">Rating:  4.5/5</span>
-                        </div>
-                        <div class="review-count">1,248 reviews</div>
-                    </div>
-                    <p class="product-price">$999.00</p>
-                    <a href="dashboards.html" class="product-generate">
-                        Generate Dashboard
-                    </a>
-                </div>
-            </div>
+        <div class="products-container" id="products-container">
+            <!-- Products will be loaded by displayProducts() function -->
+        </div>
 
-            <div class="product-card">
-                <div class="product-image">
-                    <span class="material-symbols-outlined">image</span>
-                </div>
-                <div class="product-info">
-                    <h3 class="product-title">iPhone 15 Pro</h3>
-                    <div class="product-meta">
-                        <div class="product-rating">
-                            <span class="rating-value">Rating:  4.5/5</span>
-                        </div>
-                        <div class="review-count">1,248 reviews</div>
-                    </div>
-                    <p class="product-price">$999.00</p>
-                    <a href="dashboards.html" class="product-generate">
-                        Generate Dashboard
-                    </a>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <div class="product-image">
-                    <span class="material-symbols-outlined">image</span>
-                </div>
-                <div class="product-info">
-                    <h3 class="product-title">iPhone 15 Pro</h3>
-                    <div class="product-meta">
-                        <div class="product-rating">
-                            <span class="rating-value">Rating:  4.5/5</span>
-                        </div>
-                        <div class="review-count">1,248 reviews</div>
-                    </div>
-                    <p class="product-price">$999.00</p>
-                    <a href="dashboards.html" class="product-generate">
-                        Generate Dashboard
-                    </a>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <div class="product-image">
-                    <span class="material-symbols-outlined">image</span>
-                </div>
-                <div class="product-info">
-                    <h3 class="product-title">iPhone 15 Pro</h3>
-                    <div class="product-meta">
-                        <div class="product-rating">
-                            <span class="rating-value">Rating:  4.5/5</span>
-                        </div>
-                        <div class="review-count">1,248 reviews</div>
-                    </div>
-                    <p class="product-price">$999.00</p>
-                    <a href="dashboards.html" class="product-generate">
-                        Generate Dashboard
-                    </a>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <div class="product-image">
-                    <span class="material-symbols-outlined">image</span>
-                </div>
-                <div class="product-info">
-                    <h3 class="product-title">iPhone 15 Pro</h3>
-                    <div class="product-meta">
-                        <div class="product-rating">
-                            <span class="rating-value">Rating:  4.5/5</span>
-                        </div>
-                        <div class="review-count">1,248 reviews</div>
-                    </div>
-                    <p class="product-price">$999.00</p>
-                    <a href="dashboards.html" class="product-generate">
-                        Generate Dashboard
-                    </a>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <div class="product-image">
-                    <span class="material-symbols-outlined">image</span>
-                </div>
-                <div class="product-info">
-                    <h3 class="product-title">iPhone 15 Pro</h3>
-                    <div class="product-meta">
-                        <div class="product-rating">
-                            <span class="rating-value">Rating:  4.5/5</span>
-                        </div>
-                        <div class="review-count">1,248 reviews</div>
-                    </div>
-                    <p class="product-price">$999.00</p>
-                    <a href="dashboards.html" class="product-generate">
-                        Generate Dashboard
-                    </a>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <div class="product-image">
-                    <span class="material-symbols-outlined">image</span>
-                </div>
-                <div class="product-info">
-                    <h3 class="product-title">iPhone 15 Pro</h3>
-                    <div class="product-meta">
-                        <div class="product-rating">
-                            <span class="rating-value">Rating:  4.5/5</span>
-                        </div>
-                        <div class="review-count">1,248 reviews</div>
-                    </div>
-                    <p class="product-price">$999.00</p>
-                    <a href="dashboards.html" class="product-generate">
-                        Generate Dashboard
-                    </a>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <div class="product-image">
-                    <span class="material-symbols-outlined">image</span>
-                </div>
-                <div class="product-info">
-                    <h3 class="product-title">iPhone 15 Pro</h3>
-                    <div class="product-meta">
-                        <div class="product-rating">
-                            <span class="rating-value">Rating:  4.5/5</span>
-                        </div>
-                        <div class="review-count">1,248 reviews</div>
-                    </div>
-                    <p class="product-price">$999.00</p>
-                    <a href="dashboards.html" class="product-generate">
-                        Generate Dashboard
-                    </a>
-                </div>
-            </div>
+        <div class="pagination-container">
+            <!-- Pagination will be loaded dynamically by JavaScript -->
         </div>
     </main>
 
-      <footer class="footer">
+    <footer class="footer">
         <div class="navigation-footer">
-          <div class="footer-content">
-            <div class="footer-brand">
-              <div class="text-wrapper-7">DashPoint</div>
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="text-wrapper-7">DashPoint</div>
+                </div>
+                
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <div class="text-wrapper-5">Get in touch</div>
+                        <a href="#" class="text-wrapper-6">Page</a>
+                        <a href="#" class="text-wrapper-6">Page</a>
+                        <a href="#" class="text-wrapper-6">Page</a>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <div class="text-wrapper-5">Topic</div>
+                        <a href="#" class="text-wrapper-6">Page</a>
+                        <a href="#" class="text-wrapper-6">Page</a>
+                        <a href="#" class="text-wrapper-6">Page</a>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <div class="text-wrapper-5">Topic</div>
+                        <a href="#" class="text-wrapper-6">Page</a>
+                        <a href="#" class="text-wrapper-6">Page</a>
+                        <a href="#" class="text-wrapper-6">Page</a>
+                    </div>
+                </div>
             </div>
             
-            <div class="footer-links">
-              <div class="footer-column">
-                <div class="text-wrapper-5">Get in touch</div>
-                <a href="#" class="text-wrapper-6">Page</a>
-                <a href="#" class="text-wrapper-6">Page</a>
-                <a href="#" class="text-wrapper-6">Page</a>
-              </div>
-              
-              <div class="footer-column">
-                <div class="text-wrapper-5">Topic</div>
-                <a href="#" class="text-wrapper-6">Page</a>
-                <a href="#" class="text-wrapper-6">Page</a>
-                <a href="#" class="text-wrapper-6">Page</a>
-              </div>
-              
-              <div class="footer-column">
-                <div class="text-wrapper-5">Topic</div>
-                <a href="#" class="text-wrapper-6">Page</a>
-                <a href="#" class="text-wrapper-6">Page</a>
-                <a href="#" class="text-wrapper-6">Page</a>
-              </div>
+            <div class="footer-bottom">
+                <div class="divider"></div>
+                <div class="social-icons">
+                    <a href="#" class="buttons-icon">
+                        <img class="icon" src="https://c.animaapp.com/m99ypvwld3cl0u/img/icon-3.svg" alt="Social icon 1" />
+                    </a>
+                    <a href="#" class="buttons-icon">
+                        <img class="icon" src="https://c.animaapp.com/m99ypvwld3cl0u/img/icon.svg" alt="Social icon 2" />
+                    </a>
+                    <a href="#" class="buttons-icon">
+                        <img class="icon" src="https://c.animaapp.com/m99ypvwld3cl0u/img/icon-2.svg" alt="Social icon 3" />
+                    </a>
+                    <a href="#" class="buttons-icon">
+                        <img class="icon" src="https://c.animaapp.com/m99ypvwld3cl0u/img/icon-1.svg" alt="Social icon 4" />
+                    </a>
+                </div>
             </div>
-          </div>
-          
-          <div class="footer-bottom">
-            <div class="divider"></div>
-            <div class="social-icons">
-              <a href="#" class="buttons-icon">
-                <img class="icon" src="https://c.animaapp.com/m99ypvwld3cl0u/img/icon-3.svg" alt="Social icon 1" />
-              </a>
-              <a href="#" class="buttons-icon">
-                <img class="icon" src="https://c.animaapp.com/m99ypvwld3cl0u/img/icon.svg" alt="Social icon 2" />
-              </a>
-              <a href="#" class="buttons-icon">
-                <img class="icon" src="https://c.animaapp.com/m99ypvwld3cl0u/img/icon-2.svg" alt="Social icon 3" />
-              </a>
-              <a href="#" class="buttons-icon">
-                <img class="icon" src="https://c.animaapp.com/m99ypvwld3cl0u/img/icon-1.svg" alt="Social icon 4" />
-              </a>
-            </div>
-          </div>
         </div>
-      </footer>
-
-      
-</body>
+    </footer>
 </body>
 </html>

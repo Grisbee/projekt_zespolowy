@@ -124,9 +124,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     <p><strong>Amazon Title:</strong> ${product.amazon_title}</p>
                     <p><strong>Keepa Link:</strong> <a href="${product.link_keepa}" target="_blank">${product.link_keepa}</a></p>
                     <p><strong>Amazon Link:</strong> <a href="${product.link_amazon}" target="_blank">${product.link_amazon}</a></p>
-                    <p><strong>Price (New):</strong> ${product.price_new ? (product.price_new / 100).toFixed(2) : 'N/A'}</p>
-                    <p><strong>Price (Used):</strong> ${product.price_used ? (product.price_used / 100).toFixed(2) : 'N/A'}</p>
-                    <p><strong>Price (Box):</strong> ${product.price_box ? (product.price_box / 100).toFixed(2) : 'N/A'}</p>
+                    <p><strong>Price (New):</strong> ${product.price_new ? (product.price_new ).toFixed(2) : 'N/A'}</p>
+                    <p><strong>Price (Used):</strong> ${product.price_used ? (product.price_used).toFixed(2) : 'N/A'}</p>
+                    <p><strong>Price (Box):</strong> ${product.price_box ? (product.price_box).toFixed(2) : 'N/A'}</p>
                     <p><strong>Rating:</strong> ${product.rating || 'N/A'}</p>
                     <p><strong>Review Count:</strong> ${product.review_count || '0'}</p>
                     <p><strong>Currency:</strong> ${product.currency || 'N/A'}</p>

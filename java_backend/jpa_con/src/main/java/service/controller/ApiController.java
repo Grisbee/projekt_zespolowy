@@ -1,5 +1,6 @@
 package service.controller;
 
+import org.springframework.web.bind.annotation.RequestMapping;
 import service.entities.Product;
 import service.repo.CategoryRepo;
 import service.repo.ProductCategoryRepo;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import java.util.List;
 
 @RestController
+@RequestMapping(value = "/products")
 @CrossOrigin(origins = "http://127.0.0.1:5500")
 public class ApiController {
 
@@ -31,8 +33,9 @@ public class ApiController {
         return "Hello World";
     }
 
-    @GetMapping(value = "/products")
+    @GetMapping
     public List<NewProduct> getAllProducts(){
+        System.out.println("getAllProducts");
         return newProductRepo.findAll();
     }
 }
